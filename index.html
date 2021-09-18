@@ -1,0 +1,177 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Subwoofer bandpass filter calculator</title>
+  <meta name="description" content="Subwoofer bandpass filter calculator">
+  <meta name="author" content="Dilshan R Jayakody">
+
+  <meta property="og:title" content="Subwoofer bandpass filter calculator">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.sitepoint.com/a-basic-html5-template/">
+  <meta property="og:description" content="Simple subwoofer bandpass filter calculator.">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="main.css">
+
+</head>
+
+<body>
+
+  <!-- Github folk logo -->
+  <div class="github-corner">
+    <a href="https://github.com/dilshan" title="Fork me on GitHub">
+      <svg viewbox="0 0 100 100" fill="currentColor">
+        <title>Fork me on GitHub</title>
+        <path d="M0 0v100h100V0H0zm60 70.2h.2c1 2.7.3 4.7 0 5.2 1.4 1.4 2 3 2 5.2 0 7.4-4.4 9-8.7 9.5.7.7 1.3 2 1.3 3.7V99c0 .5 1.4 1 1.4 1H44s1.2-.5 1.2-1v-3.8c-3.5 1.4-5.2-.8-5.2-.8-1.5-2-3-2-3-2-2-.5-.2-1-.2-1 2-.7 3.5.8 3.5.8 2 1.7 4 1 5 .3.2-1.2.7-2 1.2-2.4-4.3-.4-8.8-2-8.8-9.4 0-2 .7-4 2-5.2-.2-.5-1-2.5.2-5 0 0 1.5-.6 5.2 1.8 1.5-.4 3.2-.6 4.8-.6 1.6 0 3.3.2 4.8.7 2.8-2 4.4-2 5-2z"></path>
+      </svg>
+    </a>
+  </div>
+  
+  <h2 class="ui center aligned header">Subwoofer bandpass filter calculator</h2>
+
+  <div id="msgPanel" style="display: none;">
+    <div class="ui center aligned text container">
+      <div class="ui red message" id="errMsg">MESSAGE</div>
+    </div>
+    <div class="section-spacer"></div>
+  </div>
+
+  <div>
+    <div class="ui center aligned text container">      
+      <p class="info-font">This calculator application develops to customize the subwoofer bandpass filter circuit project available at Dilshan R Jayakody's weblog.</p> 
+      <p class="info-font">To customize the filter, specify R1, R2, and R3 value in K&#8486; and C4, C5, and C6 value in &micro;F.</p> 
+    </div>
+  </div>
+
+  <!-- KiCAD schematic of the LPF and HPF. -->
+  <div class="ui container">
+    <object id="schematic" data="sub-bandpass.svg" type="image/svg+xml" class="preview-image"></object>
+  </div>
+
+  <form>
+
+    <!-- Input fields. -->
+    <div class="ui two column stackable grid container">
+
+      <!-- LPF input fields. -->
+      <div class="column">
+
+        <div class="ui labeled input spacer">
+          <a class="ui label">
+            Low pass filter resistor (R1, R2 and R3):
+          </a>
+          <input type="text" placeholder="Resistor value in K&#8486;" name="txtLPFResistor">
+        </div>
+
+        <div class="ui labeled input spacer">
+          <a class="ui label">
+            Low pass cutoff frequency (3dB):
+          </a>
+          <input type="text" placeholder="Frequency in Hz" name="txtLPFFreq">
+        </div>
+
+      </div>
+
+      <!-- HPF input fields. -->
+      <div class="column">
+
+        <div class="ui labeled input spacer">
+          <a class="ui label">
+            High pass filter capacitor (C4, C5 and C6):
+          </a>
+          <input type="text" placeholder="Capacitor value in &micro;F" name="txtHPFCapacitor">
+        </div>
+      
+        <div class="ui labeled input spacer">
+          <a class="ui label">
+            High pass cutoff frequency (3dB):
+          </a>
+          <input type="text" placeholder="Frequency in Hz" name="txtHPFFreq">
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Execute button. -->
+    <div class="ui center aligned text container section-spacer">
+      <button type="button" class="ui brown button" onclick="executeCalc();">
+        Calculate
+      </button>
+    </div>
+
+  </form>
+
+  <div class="section-spacer"></div>
+
+  <!-- Result section. -->
+  <div class="ui two column grid container">
+
+    <!-- LPF result section. -->
+    <div class="column">
+      <table class="ui green table">
+        <thead>
+          <tr><th>Component designator</th>
+          <th>Value</th>
+        </tr></thead><tbody>
+          <tr>
+            <td>C1</td>
+            <td id="lpfC1">N/A</td>
+          </tr>
+          <tr>
+            <td>C2</td>
+            <td id="lpfC2">N/A</td>
+          </tr>
+          <tr>
+            <td>C3</td>
+            <td id="lpfC3">N/A</td>
+          </tr>
+          <tr>
+            <td>C4, C5, C6</td>
+            <td id="lpfC4">N/A</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- HPF result section. -->
+    <div class="column">
+      <table class="ui blue table">
+        <thead>
+          <tr><th>Component designator</th>
+          <th>Value</th>
+        </tr></thead><tbody>
+          <tr>
+            <td>R1, R2, R3</td>
+            <td id="hpfR1">N/A</td>
+          </tr>
+          <tr>
+            <td>R4</td>
+            <td id="hpfR4">N/A</td>
+          </tr>
+          <tr>
+            <td>R5</td>
+            <td id="hpfR5">N/A</td>
+          </tr>
+          <tr>
+            <td>R6</td>
+            <td id="hpfR6">N/A</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- Calculation script. -->
+  <script src="main.js"></script>
+
+</body>
+</html>
