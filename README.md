@@ -1,6 +1,6 @@
 # Subwoofer bandpass filter calculator
 
-Calculator application is a part of the *active subwoofer filter system*. This *active subwoofer filter system* provides the frequency required to run the subwoofer within its limits. The purpose of this unit is to prevent the subwoofer speaker or circuit from overloading at unsupported frequencies. 
+Calculator application is a part of the *[active subwoofer filter system](http://jayakody2000lk.blogspot.com/2021/09/active-subwoofer-filter-circuit.html)*. This *active subwoofer filter system* provides the frequency required to run the subwoofer within its limits. The purpose of this unit is to prevent the subwoofer speaker or circuit from overloading at unsupported frequencies. 
 
 This Calculator application is hosted on *GitHub Pages* and accessible at [dilshan.github.io/subwoofer-filter-calc](https://dilshan.github.io/subwoofer-filter-calc).
 
